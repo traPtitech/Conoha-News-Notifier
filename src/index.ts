@@ -1,4 +1,4 @@
-import { NotificationsResponse } from './types'
+import { NotificationsResponse, TokenResponse } from './types'
 
 function getProp(key: string) {
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -8,6 +8,8 @@ function getProp(key: string) {
 const WEBHOOK_ID = '71967de3-17b6-4597-8608-1a4709eaeee5'
 const WEBHOOK_SECRET = getProp('WEBHOOK_SECRET')
 const X_AUTH_TOKEN = getProp('X_AUTH_TOKEN')
+const USERNAME = getProp('USERNAME')
+const PASSWORD = getProp('PASSWORD')
 const TENANT_ID = getProp('TENANT_ID')
 
 function sendMessage(message: string) {
@@ -34,10 +36,29 @@ function sendMessage(message: string) {
 }
 
 function conohaNewsNotifier() {
+  const tokenURL = `https://identity.tyo1.conoha.io/v2.0/tokens`
+  const tokenAuth = {
+    auth: {
+      passwordCredentials: {
+        username: USERNAME,
+        password: PASSWORD
+      },
+      tenantId: TENANT_ID
+    }
+  }
+  const tokenOptions = {
+    methods: 'post',
+    contentType: 'applicatoin/json',
+    payload: JSON.stringify(tokenAuth)
+  }
+  const tokenData = UrlFetchApp.fetch(tokenURL, tokenOptions)
+  const jsonTokenData: TokenResponse = JSON.parse(tokenData.getContentText())
+  const tokenID = jsonTokenData.access.ID
+
   const URL = `https://account.tyo1.conoha.io/v1/${TENANT_ID}/notifications?limit=5`
   const options = {
     headers: {
-      'X-Auth-Token': X_AUTH_TOKEN
+      'X-Auth-Token': tokenID
     }
   }
   const data = UrlFetchApp.fetch(URL, options)
@@ -45,15 +66,12 @@ function conohaNewsNotifier() {
   const notifications = jsonData.notifications
 
   notifications
-    .filter(notification => {
-      const type = notification.type
-      return type === 'Failure' || type === 'Maintenance'
-    })
+    .filter(({ type }) => type === 'Failure' || type === 'Maintenance')
     .forEach(notification => {
-      const type = notification.type
-      const text = `## ${notification.title}\n\n${notification.contents
-        .split('\r\n')
-        .join('\n')}`
+      const text = `## ${notification.title}\n\n${notification.contents.replace(
+        /\r\n/g,
+        '\n'
+      )}`
       sendMessage(text)
     })
 }
