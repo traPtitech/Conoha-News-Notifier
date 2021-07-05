@@ -4,9 +4,6 @@ function getProp(key: string) {
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   return PropertiesService.getScriptProperties().getProperty(key)!
 }
-function setProp(key: string, val: string) {
-  return PropertiesService.getScriptProperties().setProperty(key, val)
-}
 
 const WEBHOOK_ID = '71967de3-17b6-4597-8608-1a4709eaeee5'
 const WEBHOOK_SECRET = getProp('WEBHOOK_SECRET')
