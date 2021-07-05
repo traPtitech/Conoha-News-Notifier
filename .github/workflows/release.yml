@@ -19,7 +19,7 @@ jobs:
       with:
         node-version: 14.10.1
     - name: clasp install
-      run: sudo npm i -g @google/clasp
+      run: sudo npm i -g @google/clasp@2.3
     - name: genarate .clasprc.json
       run: echo ${CLASPRC} > ~/.clasprc.json
       env:
