@@ -3,7 +3,9 @@ export interface NotificationsResponse {
 }
 
 export interface TokenResponse {
-  access: Token
+  token: {
+    access: Token
+  }
 }
 
 interface Notification {
@@ -16,7 +18,5 @@ interface Notification {
 }
 
 interface Token {
-  token: {
-    id: string
-  }
+  id: string
 }
