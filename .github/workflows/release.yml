@@ -1,0 +1,30 @@
+name: release
+
+on:
+  push:
+    tags:
+      - v*.*.*
+    branches-ignore:
+      - '**'
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+    - name: Set TAG_NAME env
+      run: echo "TAG_NAME=${GITHUB_REF:11}" >> $GITHUB_ENV
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v1
+      with:
+        node-version: 14.10.1
+    - name: clasp install
+      run: sudo npm i -g @google/clasp
+    - name: genarate .clasprc.json
+      run: echo ${CLASPRC} > ~/.clasprc.json
+      env:
+        CLASPRC: ${{ secrets.CLASPRC }}
+    - name: push
+      run: clasp push --force
+    - name: deploy
+      run: clasp deploy --description "${TAG_NAME}"

@@ -1,0 +1,25 @@
+{
+  "name": "conoha-news-notifier",
+  "version": "0.1.0",
+  "description": "",
+  "main": "src/index.ts",
+  "scripts": {
+    "lint": "eslint \"**/*.{ts,js,json}\"",
+    "typecheck": "tsc --noEmit"
+  },
+  "author": "traP",
+  "license": "MIT",
+  "dependencies": {
+    "@types/google-apps-script": "^1.0.35"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.28.1",
+    "@typescript-eslint/parser": "^4.28.1",
+    "eslint": "^7.30.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^3.4.0",
+    "prettier": "^2.3.2",
+    "typescript": "^4.3.5"
+  },
+  "private": true
+}
