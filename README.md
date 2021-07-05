@@ -10,3 +10,4 @@ Runs on Google Apps Script.
 - `USERNAME`: ConoHa Username
 - `PASSWORD`: ConoHa Password
 - `TENANT_ID`: ConoHa Tenant ID
+- `lastUpdated`: last checked time (Would be updated and overwritten automatically)
