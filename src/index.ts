@@ -7,7 +7,6 @@ function getProp(key: string) {
 
 const WEBHOOK_ID = '71967de3-17b6-4597-8608-1a4709eaeee5'
 const WEBHOOK_SECRET = getProp('WEBHOOK_SECRET')
-const X_AUTH_TOKEN = getProp('X_AUTH_TOKEN')
 const USERNAME = getProp('USERNAME')
 const PASSWORD = getProp('PASSWORD')
 const TENANT_ID = getProp('TENANT_ID')
