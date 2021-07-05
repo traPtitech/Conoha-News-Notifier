@@ -16,5 +16,7 @@ interface Notification {
 }
 
 interface Token {
-  id: string
+  token: {
+    id: string
+  }
 }
