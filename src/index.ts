@@ -4,7 +4,11 @@ function getProp(key: string) {
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   return PropertiesService.getScriptProperties().getProperty(key)!
 }
+function setProp(key: string, val: string) {
+  return PropertiesService.getScriptProperties().setProperty(key, val)
+}
 
+const LAST_UPDATED_PROP_KEY = 'lastUpdated'
 const WEBHOOK_ID = '71967de3-17b6-4597-8608-1a4709eaeee5'
 const WEBHOOK_SECRET = getProp('WEBHOOK_SECRET')
 const USERNAME = getProp('USERNAME')
@@ -54,7 +58,7 @@ function getToken() {
   }
   const tokenData = UrlFetchApp.fetch(tokenURL, tokenOptions)
   const jsonTokenData: TokenResponse = JSON.parse(tokenData.getContentText())
-  const tokenID = jsonTokenData.access.id
+  const tokenID = jsonTokenData.access.token.id
   return tokenID
 }
 
@@ -69,8 +73,17 @@ function conohaNewsNotifier() {
   const jsonData: NotificationsResponse = JSON.parse(data.getContentText())
   const notifications = jsonData.notifications
 
+  const v = getProp(LAST_UPDATED_PROP_KEY)
+  const lastUpdated = new Date(v)
+
   notifications
-    .filter(({ type }) => type === 'Failure' || type === 'Maintenance')
+    .filter(notification => {
+      const updated = new Date(notification.startDate)
+      const type = notification.type
+      return (
+        (type === 'Failure' || type === 'Maintenance') && lastUpdated < updated
+      )
+    })
     .forEach(notification => {
       const text = `## ${notification.title}\n\n${notification.contents.replace(
         /\r\n/g,
@@ -78,4 +91,6 @@ function conohaNewsNotifier() {
       )}`
       sendMessage(text)
     })
+
+  setProp(LAST_UPDATED_PROP_KEY, notifications[0].startDate)
 }
