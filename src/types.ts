@@ -3,8 +3,8 @@ export interface NotificationsResponse {
 }
 
 export interface TokenResponse {
-  token: {
-    access: Token
+  access: {
+    token: Token
   }
 }
 
