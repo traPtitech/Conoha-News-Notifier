@@ -34,7 +34,7 @@ function sendMessage(message: string) {
   })
 }
 
-function conohaNewsNotifier() {
+function getToken() {
   const tokenURL = `https://identity.tyo1.conoha.io/v2.0/tokens`
   const tokenAuth = {
     auth: {
@@ -47,17 +47,20 @@ function conohaNewsNotifier() {
   }
   const tokenOptions = {
     methods: 'post',
-    contentType: 'applicatoin/json',
+    contentType: 'application/json',
     payload: JSON.stringify(tokenAuth)
   }
   const tokenData = UrlFetchApp.fetch(tokenURL, tokenOptions)
   const jsonTokenData: TokenResponse = JSON.parse(tokenData.getContentText())
-  const tokenID = jsonTokenData.access.ID
+  const tokenID = jsonTokenData.access.id
+  return tokenID
+}
 
+function conohaNewsNotifier() {
   const URL = `https://account.tyo1.conoha.io/v1/${TENANT_ID}/notifications?limit=5`
   const options = {
     headers: {
-      'X-Auth-Token': tokenID
+      'X-Auth-Token': getToken()
     }
   }
   const data = UrlFetchApp.fetch(URL, options)
