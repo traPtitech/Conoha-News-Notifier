@@ -9,12 +9,12 @@ export interface TokenResponse {
 }
 
 interface Notification {
-  notificationCode: number
+  notification_code: number
   title: string
   type: string | null
   contents: string
-  readStatus: string
-  startDate: string
+  read_status: string
+  start_date: string
 }
 
 interface Token {

@@ -78,7 +78,7 @@ function conohaNewsNotifier() {
 
   notifications
     .filter(notification => {
-      const updated = new Date(notification.startDate)
+      const updated = new Date(notification.start_date)
       const type = notification.type
       return (
         (type === 'Failure' || type === 'Maintenance') && lastUpdated < updated
@@ -92,5 +92,5 @@ function conohaNewsNotifier() {
       sendMessage(text)
     })
 
-  setProp(LAST_UPDATED_PROP_KEY, notifications[0].startDate)
+  setProp(LAST_UPDATED_PROP_KEY, notifications[0].start_date)
 }
