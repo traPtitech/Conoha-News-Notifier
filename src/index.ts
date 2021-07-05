@@ -51,7 +51,9 @@ function conohaNewsNotifier() {
     })
     .forEach(notification => {
       const type = notification.type
-      const text = `## ${notification.title}\n\n${notification.contents}`
+      const text = `## ${notification.title}\n\n${notification.contents
+        .split('\r\n')
+        .join('\n')}`
       sendMessage(text)
     })
 }
