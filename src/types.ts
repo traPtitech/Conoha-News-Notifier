@@ -9,10 +9,10 @@ export interface TokenResponse {
 interface Notification {
   notificationCode: number
   title: string
-  type: string
+  type: string | null
   contents: string
   readStatus: string
-  startDate: Date
+  startDate: string
 }
 
 interface Token {
