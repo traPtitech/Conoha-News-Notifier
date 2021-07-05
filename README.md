@@ -7,3 +7,6 @@ Runs on Google Apps Script.
 
 ## Props
 - `WEBHOOK_SECRET`: traQ Webhook Secret
+- `USERNAME`: ConoHa Username
+- `PASSWORD`: ConoHa Password
+- `TENANT_ID`: ConoHa Tenant ID
