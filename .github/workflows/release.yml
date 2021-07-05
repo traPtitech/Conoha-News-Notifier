@@ -15,9 +15,11 @@ jobs:
     - name: Set TAG_NAME env
       run: echo "TAG_NAME=${GITHUB_REF:11}" >> $GITHUB_ENV
     - uses: actions/checkout@v2
-    - uses: actions/setup-node@v1
+    - name: setup Node
+      uses: actions/setup-node@v2
       with:
-        node-version: 14.10.1
+        node-version: 14
+        cache: npm
     - name: clasp install
       run: sudo npm i -g @google/clasp@2.3
     - name: genarate .clasprc.json
