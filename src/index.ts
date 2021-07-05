@@ -35,11 +35,10 @@ function sendMessage(message: string) {
 
 function conohaNewsNotifier() {
   const URL = `https://account.tyo1.conoha.io/v1/${TENANT_ID}/notifications?limit=5`
-  const headers = {
-    'X-Auth-Token': X_AUTH_TOKEN
-  }
   const options = {
-    headers: headers
+    headers: {
+      'X-Auth-Token': X_AUTH_TOKEN
+    }
   }
   const data = UrlFetchApp.fetch(URL, options)
   const jsonData: NotificationsResponse = JSON.parse(data.getContentText())
