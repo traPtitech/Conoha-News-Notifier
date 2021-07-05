@@ -47,7 +47,9 @@ function getToken() {
   }
   const tokenOptions = {
     methods: 'post',
-    contentType: 'application/json',
+    header: {
+      accept: 'application/json'
+    },
     payload: JSON.stringify(tokenAuth)
   }
   const tokenData = UrlFetchApp.fetch(tokenURL, tokenOptions)
